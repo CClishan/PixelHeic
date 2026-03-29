@@ -1,0 +1,28 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="630" fill="#FCFCFC"/>
+  <rect x="36" y="36" width="1128" height="558" rx="36" fill="#FFFFFF" stroke="#E4E4E7"/>
+  <rect x="72" y="72" width="1056" height="486" rx="28" fill="#FAFAFA"/>
+  <rect x="88" y="88" width="1024" height="454" rx="24" fill="#FFFFFF" stroke="#F1F1F1"/>
+
+  <rect x="120" y="120" width="84" height="84" rx="24" fill="#171717"/>
+  <path d="M149 145H156V160H173V145H180V180H173V166H156V180H149V145Z" fill="#FAFAFA"/>
+  <path d="M186 145H193V180H186V145Z" fill="#FAFAFA"/>
+
+  <text x="228" y="162" fill="#171717" font-family="Arial, sans-serif" font-size="50" font-weight="800">PixelHeic</text>
+  <text x="228" y="212" fill="#6B7280" font-family="Arial, sans-serif" font-size="26" font-weight="600">Browser-side HEIC / HEIF conversion</text>
+
+  <text x="120" y="308" fill="#171717" font-family="Arial, sans-serif" font-size="64" font-weight="800">Convert Apple photos on the</text>
+  <text x="120" y="382" fill="#171717" font-family="Arial, sans-serif" font-size="64" font-weight="800">user's own device.</text>
+
+  <text x="120" y="452" fill="#6B7280" font-family="Arial, sans-serif" font-size="30" font-weight="500">JPG, PNG, WEBP, ZIP downloads, and key JPG EXIF write-back when available.</text>
+
+  <rect x="820" y="170" width="238" height="150" rx="26" fill="#FAFAFA" stroke="#E4E4E7"/>
+  <text x="850" y="220" fill="#6B7280" font-family="Arial, sans-serif" font-size="18" font-weight="700">LOCAL-FIRST</text>
+  <text x="850" y="270" fill="#171717" font-family="Arial, sans-serif" font-size="24" font-weight="800">HEIC to JPG, PNG,</text>
+  <text x="850" y="302" fill="#171717" font-family="Arial, sans-serif" font-size="24" font-weight="800">and WEBP.</text>
+
+  <rect x="820" y="350" width="238" height="132" rx="26" fill="#171717"/>
+  <text x="850" y="405" fill="#FAFAFA" font-family="Arial, sans-serif" font-size="20" font-weight="700">PIXELTURN FAMILY</text>
+  <text x="850" y="444" fill="#D4D4D8" font-family="Arial, sans-serif" font-size="22" font-weight="600">Queue, convert,</text>
+  <text x="850" y="474" fill="#D4D4D8" font-family="Arial, sans-serif" font-size="22" font-weight="600">download, done.</text>
+</svg>

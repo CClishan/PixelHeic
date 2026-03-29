@@ -1,0 +1,17 @@
+{
+  "name": "PixelHeic",
+  "short_name": "PixelHeic",
+  "description": "Convert HEIC and HEIF photos to JPG, PNG, or WEBP directly in the browser.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#fcfcfc",
+  "theme_color": "#171717",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "128x128",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
