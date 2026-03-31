@@ -17,7 +17,7 @@ import {
 } from "@/lib/copy";
 import { extractHeicMetadata, hasMeaningfulMetadata } from "@/lib/exif";
 import { convertHeicFile, prepareHeicFile } from "@/lib/heic";
-import { formatDate, formatSize, formatTimestamp, sanitizeFileName } from "@/lib/format";
+import { formatDate, formatTimestamp, sanitizeFileName } from "@/lib/format";
 
 const MAX_FILE_SIZE = 50 * 1024 * 1024;
 const LARGE_FILE_WARNING = 12 * 1024 * 1024;
@@ -70,6 +70,10 @@ function optionClass(active: boolean) {
 
 function languageButtonClass(active: boolean) {
   return `locale-button ${active ? "locale-button--active" : ""}`;
+}
+
+function tabButtonClass(active: boolean) {
+  return `workspace-tab ${active ? "workspace-tab--active" : ""}`;
 }
 
 function rangeBackground(value: number, min: number, max: number) {
@@ -507,58 +511,60 @@ export default function App() {
       <ToastRegion locale={locale} closeLabel={copy.closeToastLabel} toast={toast} onClose={() => setToast(null)} />
 
       <div className="page-shell">
-        <header className="page-header">
-          <div className="page-header__brand">
-            <p className="section-kicker">PixelTurn Utility Family</p>
-            <h1 className="page-header__title">{copy.siteTitle}</h1>
-            <p className="page-header__subtitle">{copy.siteSubtitle}</p>
-          </div>
-
-          <div className="page-header__controls">
-            <div className="page-header__tabs">
-              <WorkspaceTabs activeLabel={copy.currentWorkspace} />
-            </div>
-
-            <div className="page-header__locale" role="group" aria-label={copy.workspaceLabel}>
-              <button type="button" className={languageButtonClass(locale === "en")} onClick={() => setLocale("en")}>
-                {copy.languageOptionEnglish}
-              </button>
-              <button type="button" className={languageButtonClass(locale === "zh")} onClick={() => setLocale("zh")}>
-                {copy.languageOptionChinese}
-              </button>
-            </div>
-          </div>
-        </header>
-
         <main className="workspace-grid">
           <section className="workspace-main">
-            <section className="surface-card workspace-surface">
-              <FileDropzone
-                title={copy.dropzone.title}
-                subtitle={copy.dropzone.subtitle}
-                hint={copy.dropzone.hint}
-                accept={HEIC_ACCEPT}
-                compactTitle={copy.dropzone.compactTitle}
-                compactHint={copy.dropzone.compactHint}
-                compact={files.length > 0}
-                onFiles={handleFiles}
-              />
+            <header className="page-header">
+              <div className="page-header__brand">
+                <h1 className="page-header__title">{copy.siteTitle}</h1>
+              </div>
 
-              <div className="workspace-cards">
-                <article className="workspace-card">
-                  <p className="workspace-card__label">{copy.cards.local}</p>
-                  <p className="workspace-card__body">{copy.templates.localSummary}</p>
-                  <p className="workspace-card__meta">{formatSize(files.reduce((sum, file) => sum + file.size, 0))}</p>
+              <div className="page-header__controls">
+                <div className="page-header__tabs">
+                  <WorkspaceTabs activeLabel={copy.currentWorkspace} getButtonClassName={tabButtonClass} />
+                </div>
+
+                <div className="page-header__locale" role="group" aria-label={copy.workspaceLabel}>
+                  <button type="button" className={languageButtonClass(locale === "en")} onClick={() => setLocale("en")}>
+                    {copy.languageOptionEnglish}
+                  </button>
+                  <button type="button" className={languageButtonClass(locale === "zh")} onClick={() => setLocale("zh")}>
+                    {copy.languageOptionChinese}
+                  </button>
+                </div>
+              </div>
+            </header>
+
+            <FileDropzone
+              title={copy.dropzone.title}
+              subtitle={copy.dropzone.subtitle}
+              hint={copy.dropzone.hint}
+              accept={HEIC_ACCEPT}
+              compactTitle={copy.dropzone.compactTitle}
+              compactHint={copy.dropzone.compactHint}
+              compact={files.length > 0}
+              onFiles={handleFiles}
+            />
+
+            <section className="upload-guide">
+              <div className="upload-guide__grid upload-guide__grid--four">
+                <article className="upload-guide__item">
+                  <p className="section-kicker">{copy.cards.local}</p>
+                  <p className="upload-guide__body upload-guide__body--tag">{copy.templates.localSummary}</p>
+                  <p className="upload-guide__meta-note">{copy.settings.localNoticeTitle}</p>
                 </article>
-                <article className="workspace-card">
-                  <p className="workspace-card__label">{copy.cards.output}</p>
-                  <p className="workspace-card__body">{outputCardBody}</p>
-                  <p className="workspace-card__meta">{completedFiles.length ? `${completedFiles.length}` : copy.empty.downloads}</p>
+
+                <article className="upload-guide__item">
+                  <p className="section-kicker">{copy.cards.output}</p>
+                  <p className="upload-guide__body upload-guide__body--tag">{outputCardBody}</p>
+                  <p className="upload-guide__meta-note">
+                    {completedFiles.length ? `${completedFiles.length} / ${files.length || 0}` : copy.empty.downloads}
+                  </p>
                 </article>
-                <article className="workspace-card">
-                  <p className="workspace-card__label">{copy.cards.metadata}</p>
-                  <p className="workspace-card__body">{metadataCardBody}</p>
-                  <p className="workspace-card__meta">{copy.templates.singleFrameNotice}</p>
+
+                <article className="upload-guide__item">
+                  <p className="section-kicker">{copy.cards.metadata}</p>
+                  <p className="upload-guide__body upload-guide__body--tag">{metadataCardBody}</p>
+                  <p className="upload-guide__meta-note">{copy.templates.singleFrameNotice}</p>
                 </article>
               </div>
             </section>
@@ -584,12 +590,12 @@ export default function App() {
           </section>
 
           <aside className="workspace-aside" ref={configPanelRef}>
-            <div className="config-header">
+            <header className="config-header">
               <p className="config-header__title">
                 <Settings2 className="config-header__icon" />
                 {copy.configurationTitle}
               </p>
-            </div>
+            </header>
 
             <section className="surface-card config-panel">
               <div className="control-group">
@@ -712,18 +718,18 @@ export default function App() {
         </main>
       </div>
 
-      <div className="mobile-fab">
-        <button type="button" className="mobile-fab__button mobile-fab__button--secondary" onClick={jumpToSettings}>
+      <div className={`mobile-fab-bar ${completedFiles.length ? "mobile-fab-bar--with-download" : ""}`}>
+        <button type="button" className="mobile-fab-bar__settings" onClick={jumpToSettings}>
           <Settings2 className="button-icon" />
           <span>{copy.actions.jumpToSettings}</span>
         </button>
         {completedFiles.length ? (
-          <button type="button" className="mobile-fab__button mobile-fab__button--secondary" onClick={() => void downloadZip()}>
+          <button type="button" className="mobile-fab-bar__secondary" onClick={() => void downloadZip()}>
             <Download className="button-icon" />
             <span>{copy.actions.downloadZip}</span>
           </button>
         ) : null}
-        <button type="button" className="mobile-fab__button mobile-fab__button--primary" onClick={() => void convertQueue()} disabled={!files.length || isProcessing}>
+        <button type="button" className="mobile-fab-bar__primary" onClick={() => void convertQueue()} disabled={!files.length || isProcessing}>
           <Archive className="button-icon" />
           <span>{isProcessing ? copy.actions.converting : copy.actions.convert}</span>
         </button>

@@ -11,12 +11,9 @@ export default defineConfig({
   },
   build: {
     rollupOptions: {
+      external: (id) => id === "/vendor/heic-to.js",
       output: {
         manualChunks(id) {
-          if (id.includes("heic-to")) {
-            return "heic-runtime";
-          }
-
           if (id.includes("jszip")) {
             return "zip-runtime";
           }

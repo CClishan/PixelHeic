@@ -16,13 +16,17 @@ export interface HeicConversionResult {
   durationMs: number;
 }
 
-type HeicModule = typeof import("heic-to/next");
+interface HeicModule {
+  heicTo: (input: { blob: Blob; type: "bitmap" }) => Promise<ImageBitmap>;
+  isHeic: (input: Blob) => Promise<boolean>;
+}
 
 let heicModulePromise: Promise<HeicModule> | null = null;
 
 async function loadHeicModule() {
   if (!heicModulePromise) {
-    heicModulePromise = import("heic-to/next");
+    // Load the heavy decoder from `public/` so Vite does not bundle a 2.7 MB runtime chunk.
+    heicModulePromise = import(/* @vite-ignore */ "/vendor/heic-to.js") as Promise<HeicModule>;
   }
 
   return heicModulePromise;

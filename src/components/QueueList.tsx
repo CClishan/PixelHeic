@@ -3,6 +3,7 @@ import {
   CheckCircle2,
   Download,
   FileImage,
+  Layers,
   Loader2,
   Trash2,
   X,
@@ -55,7 +56,7 @@ export function QueueList({
         <div className="queue-header__copy">
           <div className="queue-header__title-row">
             <span className="queue-header__icon">
-              <FileImage className="queue-header__icon-svg" />
+              <Layers className="queue-header__icon-svg" />
             </span>
             <h2 className="queue-title">{title}</h2>
           </div>
@@ -78,9 +79,17 @@ export function QueueList({
             const error = translateMessage(locale, file.error);
             const duration = formatDuration(file.durationMs);
             const dims = formatDimensions(file.dimensions);
+            const completedInfoMessages = [
+              file.status === "completed" ? detail : "",
+              !error && !warning ? file.metadataSummary ?? "" : "",
+              warning,
+            ].filter(Boolean);
+            const showCollapsedCompletedInfo = file.status === "completed" && completedInfoMessages.length > 0;
+            const inlineDetail = showCollapsedCompletedInfo ? "" : detail;
+            const inlineMetadata = showCollapsedCompletedInfo ? "" : !error && !warning ? file.metadataSummary : "";
 
             return (
-              <div key={file.id} className="queue-row">
+              <div key={file.id} className="queue-row group">
                 <div className="queue-row__main">
                   <div className="queue-thumbnail">
                     {file.previewUrl ? (
@@ -102,10 +111,12 @@ export function QueueList({
                       {duration ? <span className="eyebrow-chip">{duration}</span> : null}
                       {metadataLabel ? <span className="eyebrow-chip">{metadataLabel}</span> : null}
                     </div>
-                    {detail ? <p className="queue-detail">{detail}</p> : null}
-                    {!error && !warning && file.metadataSummary ? <p className="queue-note">{file.metadataSummary}</p> : null}
-                    {warning ? <p className="queue-note queue-note--warning">{warning}</p> : null}
-                    {error ? <p className="queue-note queue-note--error">{error}</p> : null}
+                    <div className="queue-feedback">
+                      {inlineDetail ? <p className="queue-detail">{inlineDetail}</p> : null}
+                      {inlineMetadata ? <p className="queue-note">{inlineMetadata}</p> : null}
+                      {!showCollapsedCompletedInfo && warning ? <p className="queue-note queue-note--warning">{warning}</p> : null}
+                      {error ? <p className="queue-note queue-note--error">{error}</p> : null}
+                    </div>
                   </div>
                 </div>
 
@@ -123,6 +134,18 @@ export function QueueList({
                         <AlertCircle className="queue-state-icon__svg queue-state-icon__svg--warning" />
                       ) : null}
                     </span>
+                    {showCollapsedCompletedInfo ? (
+                      <div className="queue-info-tooltip">
+                        <span className="queue-info-tooltip__trigger" aria-hidden="true">
+                          <AlertCircle className="queue-action-button__icon" />
+                        </span>
+                        <div className="queue-info-tooltip__bubble">
+                          {completedInfoMessages.map((message) => (
+                            <p key={message}>{message}</p>
+                          ))}
+                        </div>
+                      </div>
+                    ) : null}
                   </div>
 
                   <div className="queue-action-buttons">

@@ -81,7 +81,7 @@ export function FileDropzone({
         </div>
         <div className="dropzone-copy-group">
           <p className="dropzone-title">{compact ? compactTitle : title}</p>
-          {!compact ? <p className="dropzone-copy">{subtitle}</p> : null}
+          {!compact && subtitle ? <p className="dropzone-copy">{subtitle}</p> : null}
         </div>
         <p className={`dropzone-hint ${compact ? "dropzone-hint--compact" : ""}`}>{compact ? compactHint : hint}</p>
       </div>
